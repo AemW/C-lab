@@ -30,10 +30,7 @@ char* till_morse(char c){
 
 int sok(char *string){
 	int i = 0;
-	while(strcmp(morse[i], string) != 0){
-		i++;
-		
-	}
+	while(strcmp(morse[i++], string) != 0);
 	
 	return i;
 }
@@ -49,10 +46,9 @@ char fran_morse(char *string){
 }
 
 int main(int argc, char **argv){
-	int in;
-	first = true;
+	int in = 0;
 	
-	printf("text->morse:0\nmorse->text:1\n");
+	printf("text->morse: please change code\nmorse->text: 1\n");
 	scanf("%i", &in);
 	
 	printf("enter stuff\n");
@@ -71,6 +67,7 @@ int main(int argc, char **argv){
 		}
 		printf("\n");
 	} else {
+		first = true;
 		char str[256];
 		char c;
 		while(scanf("%s",str) == 1){
