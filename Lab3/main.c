@@ -42,37 +42,41 @@ char fran_morse(char *string){
 }
 
 int main(int argc, char **argv){
-	int in =1;
-//	printf("text->morse:0\n morse->text:1\n");
-//	scanf("%i", &in);
+	int in;
+	printf("text->morse:0\nmorse->text:1\n");
+	scanf("%i", &in);
 	
 	printf("enter stuff\n");
 	
 	if(in == 0){
 		char rad[256];
 		fgets(rad, 256, stdin);
-		char *c = rad;
-		while(*c != '\0'){
-			if(*c == ' '){
+		char *p = rad;
+		while(*p != '\0'){
+			if(*p == ' '){
 				printf("\t");
 			} else {
-				printf("%s ",till_morse(*c));
+				printf("%s ",till_morse(*p));
 			}
-			c++;
+			p++;
 		}
 		printf("\n");
 	} else {
-		char c[256];
-		while(scanf("%s",c) == 1){
-			if(c == "\t"){
+		char str[256];
+		char c;
+		while(scanf("%s",str) == 1){
+			
+			printf("%c", fran_morse(str));
+			
+			if((c = getchar()) == '\t'){
 				printf(" ");
-			} else {
-				printf("%c", fran_morse(c));
+			} else if( c == '\n'){
+				break;// somehow when using chosing method 1:0 above
+					// a infinite loop can be created even if code otherwise
+					// work perfectly without chosing from terminal
 			}
 			
-			
 		}
-		
 		
 	}
 	
