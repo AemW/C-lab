@@ -6,14 +6,14 @@
 ProjectName            :=Lab3
 ConfigurationName      :=Debug
 WorkspacePath          := "C:\Users\Andreas\CWorkspace"
-ProjectPath            := "C:\Users\Andreas\Lab3\Lab3"
+ProjectPath            := "C:\Users\Andreas\C-lab\Lab3"
 IntermediateDirectory  :=./Debug
 OutDir                 := $(IntermediateDirectory)
 CurrentFileName        :=
 CurrentFilePath        :=
 CurrentFileFullPath    :=
 User                   :=Andreas
-Date                   :=2013-11-01
+Date                   :=2013-11-02
 CodeLitePath           :="C:\Program Files (x86)\CodeLite"
 LinkerName             :=gcc
 SharedObjectLinkerName :=gcc -shared -fPIC
@@ -89,7 +89,7 @@ PreBuild:
 ## Objects
 ##
 $(IntermediateDirectory)/main$(ObjectSuffix): main.c $(IntermediateDirectory)/main$(DependSuffix)
-	$(CC) $(SourceSwitch) "C:/Users/Andreas/Lab3/Lab3/main.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/main$(ObjectSuffix) $(IncludePath)
+	$(CC) $(SourceSwitch) "C:/Users/Andreas/C-lab/Lab3/main.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/main$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/main$(DependSuffix): main.c
 	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/main$(ObjectSuffix) -MF$(IntermediateDirectory)/main$(DependSuffix) -MM "main.c"
 
