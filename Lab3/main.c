@@ -3,6 +3,9 @@
 
 char morse[26][5] = {".-","-...","-.-.","-..",".","..-.","--.","....","..",".---","-.-",".-..","--","-.","---",".--.","--.-",".-.","...","-","..-","...-",".--","-..-","-.--","--.."};
 
+typedef enum { false, true } bool;
+bool first;
+
 int bokst_nr(char c){
 	int ret = -1;
 	
@@ -37,12 +40,18 @@ int sok(char *string){
 
 char fran_morse(char *string){
 	
+	if(first){
+		first = false;
+		return 'A' + sok(string);
+	} 
 	return 'a' + sok(string);
 	
 }
 
 int main(int argc, char **argv){
 	int in;
+	first = true;
+	
 	printf("text->morse:0\nmorse->text:1\n");
 	scanf("%i", &in);
 	
