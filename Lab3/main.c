@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 
-char morse[26][5] = {".-","-...","-.-.","-..",".","..-.","--.","....","..",".---","-.-",".-..","--","-.","---",".--.","--.-",".-.","...","-","..-","...-",".--","-..-","-.--","--.."};
+char *morse[] = {".-","-...","-.-.","-..",".","..-.","--.","....","..",".---","-.-",".-..","--","-.","---",".--.","--.-",".-.","...","-","..-","...-",".--","-..-","-.--","--.."};
 
 typedef enum { false, true } bool;
 bool first;
@@ -30,7 +30,9 @@ char* till_morse(char c){
 
 int sok(char *string){
 	int i = 0;
-	while(strcmp(morse[i++], string) != 0);
+	while(strcmp(morse[i], string) != 0){
+		i++;
+	}
 	
 	return i;
 }
@@ -68,7 +70,7 @@ int main(int argc, char **argv){
 		printf("\n");
 	} else {
 		first = true;
-		char str[256];
+		char str[10];
 		char c;
 		while(scanf("%s",str) == 1){
 			
