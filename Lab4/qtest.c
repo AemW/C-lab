@@ -6,7 +6,7 @@
 #include <crtdbg.h>
 #endif // _MSC_VER
 
-
+/**
 void print_queue(Queue q) {
     Iterator it;
     for (it = new_iterator(q); is_valid(it); go_to_next(it)) {
@@ -36,11 +36,11 @@ int checkQueue(Queue q, const char *data[], const int order[], int startOffset, 
   }
   for (it = new_iterator(q); is_valid(it); go_to_next(it), ++i) {
     if (get_current(it) != data[order[i]]) {
-      printf("Fel: element %d i kö ska vara \"%s\" men är \"%s\" ", i - startOffset, data[order[i]], get_current(it));
+      printf("Fel: element %d i kÃ¶ ska vara \"%s\" men Ã¤r \"%s\" ", i - startOffset, data[order[i]], get_current(it));
       delete_iterator(it);
       return 0;
     }
-    // om vi kommer hit är size inte underhållen på rätt sätt.
+    // om vi kommer hit Ã¤r size inte underhÃ¥llen pÃ¥ rÃ¤tt sÃ¤tt.
     if (i - startOffset >= size(q)) {
       return 0;
     }
@@ -64,21 +64,21 @@ int main(int argc, char *argv[]) {
     for (i=0; i<10; i++) {
       add(q, i%4, a[i]); 
     }
-    printf("Nu skall storleken vara lika med 10 och första element \"%s\":\n", a[3]);
+    printf("Nu skall storleken vara lika med 10 och fÃ¶rsta element \"%s\":\n", a[3]);
     printf("Storlek = %d\n", size(q));
     CHECK_CONDITION(size(q) == 10, "Nu skall storleken vara lika med 10");
-    printf("Första element = \"%s\"\n\n", get_first(q));
-    CHECK_CONDITION(get_first(q) == a[3], "Felaktigt första element.");
-    printf("Nu skall 10 element skrivas ut: (\"%s\" först och \"%s\" sist)\n", a[3], a[8]);
+    printf("FÃ¶rsta element = \"%s\"\n\n", get_first(q));
+    CHECK_CONDITION(get_first(q) == a[3], "Felaktigt fÃ¶rsta element.");
+    printf("Nu skall 10 element skrivas ut: (\"%s\" fÃ¶rst och \"%s\" sist)\n", a[3], a[8]);
     print_queue(q); 
-    // kolla ordning i kö
+    // kolla ordning i kÃ¶
     CHECK_CONDITION(checkQueue(q, a, correctOrder1, 0, 10), "");
-    printf("Nu skall första elementet vara borttaget:\n");   
+    printf("Nu skall fÃ¶rsta elementet vara borttaget:\n");   
     remove_first(q);
     print_queue(q);
     CHECK_CONDITION(size(q) == 9, "Nu skall storleken vara lika med 9");
     CHECK_CONDITION(checkQueue(q, a, correctOrder1, 1, 9), "");
-    printf("Nu skall även andra elementet vara borttaget:\n");
+    printf("Nu skall Ã¤ven andra elementet vara borttaget:\n");
     remove_first(q);
     print_queue(q);
     CHECK_CONDITION(size(q) == 8, "Nu skall storleken vara lika med 8");
@@ -91,28 +91,28 @@ int main(int argc, char *argv[]) {
     print_queue(q);
     for (i=3; i<8; i++)
       add(q, i%3, a[i]);
-    printf("Nu skall storleken vara lika med 5, första element \"%s\" och sista \"%s\":\n", a[5], a[6]);
+    printf("Nu skall storleken vara lika med 5, fÃ¶rsta element \"%s\" och sista \"%s\":\n", a[5], a[6]);
     printf("Storlek = %d\n", size(q));
     print_queue(q);
     CHECK_CONDITION(size(q) == 5, "Nu skall storleken vara lika med 5");
     CHECK_CONDITION(checkQueue(q, a, correctOrder2, 0, 5), "");
     {
-      // hög med iterator test...
+      // hÃ¶g med iterator test...
       Iterator it = new_iterator(q); 
       // 
-      CHECK_CONDITION(is_valid(it), "Fel: nyskapad iterator skall vara första elementet!\n");
+      CHECK_CONDITION(is_valid(it), "Fel: nyskapad iterator skall vara fÃ¶rsta elementet!\n");
       go_to_previous(it);
-      CHECK_CONDITION(!is_valid(it), "Fel: go_to_previous från första skall ge invalid iterator!\n");
+      CHECK_CONDITION(!is_valid(it), "Fel: go_to_previous frÃ¥n fÃ¶rsta skall ge invalid iterator!\n");
       CHECK_CONDITION(get_current(it) == 0, "Fel: get_current av invalid iterator ska ge 0!");
       change_current(it, "blahonga");
-      CHECK_CONDITION(get_current(it) == 0, "Fel: change_current på invalid iterator ska ej ha effekt!");
+      CHECK_CONDITION(get_current(it) == 0, "Fel: change_current pÃ¥ invalid iterator ska ej ha effekt!");
       go_to_previous(it);
-      CHECK_CONDITION(!is_valid(it), "Fel: go_to_previous ska ej påverka invalid iterator!\n");
+      CHECK_CONDITION(!is_valid(it), "Fel: go_to_previous ska ej pÃ¥verka invalid iterator!\n");
       go_to_next(it);
-      CHECK_CONDITION(!is_valid(it), "Fel: go_to_next ska ej påverka invalid iterator!\n");
+      CHECK_CONDITION(!is_valid(it), "Fel: go_to_next ska ej pÃ¥verka invalid iterator!\n");
       delete_iterator(it);
     }
-    printf("Nu skall kön skrivas ut baklänges:\n");
+    printf("Nu skall kÃ¶n skrivas ut baklÃ¤nges:\n");
     print_reverse_queue(q);
     {
       Iterator it = new_iterator(q); 
@@ -126,9 +126,9 @@ int main(int argc, char *argv[]) {
       remove_current(it);
       printf("Nu skall \"Nisse\" vara borttagen:\n");
       print_queue(q);   
-      CHECK_CONDITION(get_current(it) == lisa, "Fel: efter remove_current skall iteratorn peka på följande element (i.e. \"Lisa\")!");
+      CHECK_CONDITION(get_current(it) == lisa, "Fel: efter remove_current skall iteratorn peka pÃ¥ fÃ¶ljande element (i.e. \"Lisa\")!");
       find(it, nisse);
-      CHECK_CONDITION(get_current(it) != nisse, "Fel: remove_current misslyckades (Nisse är kvar)!");
+      CHECK_CONDITION(get_current(it) != nisse, "Fel: remove_current misslyckades (Nisse Ã¤r kvar)!");
       clear(q);
       printf("Nu skall storleken vara lika med 0 och inga element skall skrivas ut:\n");
       printf("Storlek = %d\n", size(q));
@@ -137,10 +137,11 @@ int main(int argc, char *argv[]) {
     }
     delete_queue(q);
 #ifdef _MSC_VER
-    CHECK_CONDITION(!_CrtDumpMemoryLeaks(), "Ditt program läcker minne, har du glömt att köra free på något som du fått från malloc?\n");
+    CHECK_CONDITION(!_CrtDumpMemoryLeaks(), "Ditt program lÃ¤cker minne, har du glÃ¶mt att kÃ¶ra free pÃ¥ nÃ¥got som du fÃ¥tt frÃ¥n malloc?\n");
 #endif // _MSC_VER
 
-    printf("Tryck på Enter för att avsluta: ");
+    printf("Tryck pÃ¥ Enter fÃ¶r att avsluta: ");
     getchar();
     return 0;
 }
+ * */

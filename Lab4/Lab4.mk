@@ -5,16 +5,16 @@
 ## Debug
 ProjectName            :=Lab4
 ConfigurationName      :=Debug
-WorkspacePath          := "C:\Users\Andreas\CWorkspace"
-ProjectPath            := "C:\Users\Andreas\C-lab\Lab4"
+WorkspacePath          := "/home/linnea/.codelite/Mooppen"
+ProjectPath            := "/home/linnea/Skola/C/C-lab/Lab4"
 IntermediateDirectory  :=./Debug
 OutDir                 := $(IntermediateDirectory)
 CurrentFileName        :=
 CurrentFilePath        :=
 CurrentFileFullPath    :=
-User                   :=Andreas
-Date                   :=2013-11-04
-CodeLitePath           :="C:\Program Files (x86)\CodeLite"
+User                   :=Linnea Andersson
+Date                   :=11/09/13
+CodeLitePath           :="/home/linnea/.codelite"
 LinkerName             :=gcc
 SharedObjectLinkerName :=gcc -shared -fPIC
 ObjectSuffix           :=.o
@@ -34,9 +34,7 @@ ArchiveOutputSwitch    :=
 PreprocessOnlySwitch   :=-E 
 ObjectsFileList        :="Lab4.txt"
 PCHCompileFlags        :=
-MakeDirCommand         :=makedir
-RcCmpOptions           := 
-RcCompilerName         :=windres
+MakeDirCommand         :=mkdir -p
 LinkOptions            :=  
 IncludePath            :=  $(IncludeSwitch). $(IncludeSwitch). 
 IncludePCH             := 
@@ -47,20 +45,21 @@ LibPath                := $(LibraryPathSwitch).
 
 ##
 ## Common variables
-## AR, CXX, CC, CXXFLAGS and CFLAGS can be overriden using an environment variables
+## AR, CXX, CC, AS, CXXFLAGS and CFLAGS can be overriden using an environment variables
 ##
 AR       := ar rcus
 CXX      := gcc
 CC       := gcc
 CXXFLAGS :=  -g -O0 -Wall $(Preprocessors)
 CFLAGS   :=  -g -O0 -Wall $(Preprocessors)
+ASFLAGS  := 
+AS       := as
 
 
 ##
 ## User defined environment variables
 ##
-CodeLiteDir:=C:\Program Files (x86)\CodeLite
-UNIT_TEST_PP_SRC_DIR:=C:\Program Files (x86)\CodeLite
+CodeLiteDir:=/usr/share/codelite
 Objects0=$(IntermediateDirectory)/qtest$(ObjectSuffix) $(IntermediateDirectory)/queue$(ObjectSuffix) 
 
 
@@ -80,7 +79,7 @@ $(OutputFile): $(IntermediateDirectory)/.d $(Objects)
 	$(LinkerName) $(OutputSwitch)$(OutputFile) @$(ObjectsFileList) $(LibPath) $(Libs) $(LinkOptions)
 
 $(IntermediateDirectory)/.d:
-	@$(MakeDirCommand) "./Debug"
+	@test -d ./Debug || $(MakeDirCommand) ./Debug
 
 PreBuild:
 
@@ -89,7 +88,7 @@ PreBuild:
 ## Objects
 ##
 $(IntermediateDirectory)/qtest$(ObjectSuffix): qtest.c $(IntermediateDirectory)/qtest$(DependSuffix)
-	$(CC) $(SourceSwitch) "C:/Users/Andreas/C-lab/Lab4/qtest.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/qtest$(ObjectSuffix) $(IncludePath)
+	$(CC) $(SourceSwitch) "/home/linnea/Skola/C/C-lab/Lab4/qtest.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/qtest$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/qtest$(DependSuffix): qtest.c
 	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/qtest$(ObjectSuffix) -MF$(IntermediateDirectory)/qtest$(DependSuffix) -MM "qtest.c"
 
@@ -97,7 +96,7 @@ $(IntermediateDirectory)/qtest$(PreprocessSuffix): qtest.c
 	@$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/qtest$(PreprocessSuffix) "qtest.c"
 
 $(IntermediateDirectory)/queue$(ObjectSuffix): queue.c $(IntermediateDirectory)/queue$(DependSuffix)
-	$(CC) $(SourceSwitch) "C:/Users/Andreas/C-lab/Lab4/queue.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/queue$(ObjectSuffix) $(IncludePath)
+	$(CC) $(SourceSwitch) "/home/linnea/Skola/C/C-lab/Lab4/queue.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/queue$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/queue$(DependSuffix): queue.c
 	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/queue$(ObjectSuffix) -MF$(IntermediateDirectory)/queue$(DependSuffix) -MM "queue.c"
 
@@ -117,7 +116,6 @@ clean:
 	$(RM) $(IntermediateDirectory)/queue$(DependSuffix)
 	$(RM) $(IntermediateDirectory)/queue$(PreprocessSuffix)
 	$(RM) $(OutputFile)
-	$(RM) $(OutputFile).exe
-	$(RM) "../../CWorkspace/.build-debug/Lab4"
+	$(RM) "../../../../.codelite/Mooppen/.build-debug/Lab4"
 
 
