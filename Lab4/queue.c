@@ -35,7 +35,7 @@ Queue new_queue(){
 }                   // allokerar minnesutrymme för en ny kö
 
 void delete_queue(Queue q){
-	free(q);
+	free(q); // FFEEEL!
 }          // tar bort kön helt och hållet
 
 void clear(Queue q);                 // tar bort köelementen men behåller kön
