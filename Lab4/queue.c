@@ -91,12 +91,10 @@ int main(){
 	add(queue,6,&nyttNummer);
 	add(queue,8,&nyttNummer1);
 	add(queue,9,&nyttNummer2);
-	printf("Hello this is the length of the list : %i\n And the first priority is: %i \n",size(queue), queue->head->next->prio);
-	printf("2 %i\n",queue->head->next->next->prio);
-	//printf("this is the first Data in the list: %i \n",*(get_first(queue)));
-	//printf("this is the second Data in the list: %i \n",*(queue->head->next->next->data));
-	printf("3  %i \n",(queue->head->next->next->next->prio));
-	printf("4  %i \n",(queue->head->next->next->next->next->prio));
+	printf("1   prio: %i, data: %i\n",queue->head->next->prio,*(queue->head->next->data));
+	printf("2   prio: %i, data: %i\n",queue->head->next->next->prio,*(queue->head->next->next->data));
+	printf("3   prio: %i, data: %i\n",(queue->head->next->next->next->prio),*(queue->head->next->next->next->data));
+	printf("4   prio: %i, data: %i\n",(queue->head->next->next->next->next->prio),*(queue->head->next->next->next->next->data));
 	
 	
 	return 0;
