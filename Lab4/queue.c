@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
 struct qelemstruct {
 	struct qelemstruct *next, *prev;
 	int prio;
@@ -27,7 +26,7 @@ Queue new_queue(){
 	queue->head->next = queue->head;
 	queue->length = 0;
 	queue->head->prio = 0;
-	queue->head->data = 0;
+	queue->head->data = NULL;
 	return queue;
 }                   // allokerar minnesutrymme för en ny kö
 
@@ -53,21 +52,19 @@ void add(Queue q, int priority, DATA *d){
 	struct qelemstruct *qelem = malloc(sizeof(struct qelemstruct));
 	qelem->data = d;
 	qelem->prio = priority;
-	(q->length)++;
+	
 	temp = q->head->next;
 		
 
-	
-	while(temp->prio >= priority ){
-		printf("tmp prio %i | new prio %i\n",temp->prio, priority);
+	while(temp->prio >= priority && temp != q->head){
 		temp = temp->next;
-
 	}
-
+	
 	temp->prev->next = qelem;
 	qelem->next = temp;
 	qelem->prev = temp->prev;
 	temp->prev = qelem;
+	(q->length)++;
 }    
 
 DATA *get_first(Queue q){
@@ -102,6 +99,7 @@ Iterator new_iterator(Queue q){
 void delete_iterator(Iterator it){
 	free(it);
 }    // tar bort iteratorn
+
 void go_to_first(Iterator it){//untried
 	if(is_valid(it)){
 		while(it->q->head->next != it->curr){
@@ -119,15 +117,15 @@ void go_to_last(Iterator it){//untried
 }         // går till köns sista element
 
 void go_to_next(Iterator it){// om nästa är startelementet?
-	
-	it->curr = it->curr->next; 
-	
+	if(is_valid(it)){
+		it->curr = it->curr->next; 
+	}	
 }         // går till till nästa element 
 
 void go_to_previous(Iterator it){// om föregående är start?
-	
-	it->curr = it->curr->prev;
-	
+	if(is_valid(it)){
+		it->curr = it->curr->prev;
+	}
 }     // går till föregående element
 
 DATA *get_current(Iterator it){
@@ -152,11 +150,19 @@ void change_current(Iterator it, DATA *d){
 
 void remove_current(Iterator it){// sätta DATA i ett element till 0 eller ta bort element ur kön?
 	
+		struct qelemstruct* tmp;	
+		tmp = it->curr;
+		it->curr = tmp->next;
+		tmp->next->prev = tmp->prev;
+		tmp->prev->next = tmp->next;
+		free(tmp);
+		(it->q->length)--; 
+		
 }         // tar bort aktuellt dataelement
 
 void find(Iterator it, DATA *d){
 	go_to_first(it);
-	while(get_current(it) != it->curr->data){
+	while(get_current(it) != d && is_valid(it)){
 		go_to_next(it);
 	}
 	
