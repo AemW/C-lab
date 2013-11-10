@@ -13,18 +13,18 @@ struct qelemstruct {
 struct qstruct {
 	struct qelemstruct *head;
 	int length;
-};                              // anger att qstruct och qiteratorstruct
+};                              
 
 struct qiteratorstruct {
 	struct qstruct *q;
 	struct qelemstruct *curr;
-};                      // definieras på annat ställe
+};
 
-typedef struct qstruct *Queue;               // typerna Queue och Iterator
-typedef struct qiteratorstruct *Iterator;    // skall utnyttjas av användaren
+typedef struct qstruct *Queue;               // this shouldn't be necissary 
+typedef struct qiteratorstruct *Iterator; 	// because we declare them in the header file
 
 Queue new_queue(){
-	Queue queue = (Queue)malloc(sizeof(struct qstruct));
+	Queue queue = (Queue)malloc(sizeof(Queue));
 	queue->head = (struct qelemstruct*)malloc(sizeof(struct qelemstruct));
 	queue->head->prev = queue->head;
 	queue->head->next = queue->head;
@@ -35,15 +35,22 @@ Queue new_queue(){
 }                   // allokerar minnesutrymme för en ny kö
 
 void delete_queue(Queue q){
-	free(q); // FFEEEL!
+	clear(q);		// rensa alla element
+	free(q->head);	// fria head
+	free(q); 		// FFEEEL!
 }          // tar bort kön helt och hållet
 
-void clear(Queue q);                 // tar bort köelementen men behåller kön
+void clear(Queue q){
+	while(size(q) > 0){
+		remove_first(q);
+	}
+	
+}          // tar bort köelementen men behåller kön
 
-int  size(Queue q){
+int size(Queue q){
 	return q->length;
-}
-                        // ger köns aktuella längd
+}// ger köns aktuella längd
+
 void add(Queue q, int priority, DATA *d){
 	struct qelemstruct *temp;
 	struct qelemstruct *qelem = malloc(sizeof(struct qelemstruct));
@@ -67,12 +74,47 @@ DATA *get_first(Queue q){
 	return q->head->next->data;
 }                    // avläser första dataelementet 
 
-void remove_first(Queue q);                   // tar bort det första elementet
+void remove_first(Queue q){//untried
+	
+	if(q->length > 0){
+		struct qelemstruct* tmp;	
+		tmp = q->head->next;
+		tmp->next->prev = tmp->prev;
+		tmp->prev->next = tmp->next;
+		free(tmp);
+		q->length--; 
+		
+	}
+	
+}                   // tar bort det första elementet
 
-Iterator new_iterator(Queue q);       // allokerar utrymme för en ny iterator
-void delete_iterator(Iterator it);    // tar bort iteratorn
-void go_to_first(Iterator it);        // går till köns första element
-void go_to_last(Iterator it);         // går till köns sista element
+Iterator new_iterator(Queue q){
+	Iterator itr = (Iterator)malloc(sizeof(Iterator));
+	
+	itr->q = q;
+	itr->curr = q->head->next;
+	
+	return itr;
+	
+	
+	
+}      // allokerar utrymme för en ny iterator
+void delete_iterator(Iterator it){
+	free(it);
+}    // tar bort iteratorn
+void go_to_first(Iterator it){//untried
+	while(it->q->head->next != it->curr && it->q->head != it->curr){
+		it->curr = it->curr->prev;
+	}
+	
+}        // går till köns första element
+
+void go_to_last(Iterator it){//untried
+	while(it->q->head->prev != it->curr && it->q->head != it->curr){
+		it->curr = it->curr->next;
+	}
+}         // går till köns sista element
+
 void go_to_next(Iterator it);         // går till till nästa element
 void go_to_previous(Iterator it);     // går till föregående element
 DATA *get_current(Iterator it);       // ger pekare till aktuellt dataelementet 
