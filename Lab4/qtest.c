@@ -6,7 +6,7 @@
 #include <crtdbg.h>
 #endif // _MSC_VER
 
-/**
+
 void print_queue(Queue q) {
     Iterator it;
     for (it = new_iterator(q); is_valid(it); go_to_next(it)) {
@@ -144,4 +144,4 @@ int main(int argc, char *argv[]) {
     getchar();
     return 0;
 }
- * */
+ 

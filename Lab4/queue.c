@@ -1,4 +1,4 @@
-#define DATA int
+#define DATA const char
 #include "queue.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -19,9 +19,6 @@ struct qiteratorstruct {
 	struct qstruct *q;
 	struct qelemstruct *curr;
 };
-
-typedef struct qstruct *Queue;               // this shouldn't be necissary 
-typedef struct qiteratorstruct *Iterator; 	// because we declare them in the header file
 
 Queue new_queue(){
 	Queue queue = (Queue)malloc(sizeof(Queue));
@@ -55,17 +52,20 @@ void add(Queue q, int priority, DATA *d){
 	struct qelemstruct *temp;
 	struct qelemstruct *qelem = malloc(sizeof(struct qelemstruct));
 	qelem->data = d;
+	qelem->prio = priority;
 	(q->length)++;
 	temp = q->head->next;
 		
+
 	
 	while(temp->prio >= priority ){
+		printf("tmp prio %i | new prio %i\n",temp->prio, priority);
 		temp = temp->next;
+
 	}
-	
+
 	temp->prev->next = qelem;
 	qelem->next = temp;
-	qelem->prio = priority;
 	qelem->prev = temp->prev;
 	temp->prev = qelem;
 }    
@@ -82,7 +82,7 @@ void remove_first(Queue q){//untried
 		tmp->next->prev = tmp->prev;
 		tmp->prev->next = tmp->next;
 		free(tmp);
-		q->length--; 
+		(q->length)--; 
 		
 	}
 	
@@ -103,28 +103,66 @@ void delete_iterator(Iterator it){
 	free(it);
 }    // tar bort iteratorn
 void go_to_first(Iterator it){//untried
-	while(it->q->head->next != it->curr && it->q->head != it->curr){
-		it->curr = it->curr->prev;
+	if(is_valid(it)){
+		while(it->q->head->next != it->curr){
+			it->curr = it->curr->prev;
+		}
 	}
-	
 }        // går till köns första element
 
 void go_to_last(Iterator it){//untried
-	while(it->q->head->prev != it->curr && it->q->head != it->curr){
-		it->curr = it->curr->next;
+	if(is_valid(it)){
+		while(it->q->head->prev != it->curr){
+			it->curr = it->curr->next;
+		}
 	}
 }         // går till köns sista element
 
-void go_to_next(Iterator it);         // går till till nästa element
-void go_to_previous(Iterator it);     // går till föregående element
-DATA *get_current(Iterator it);       // ger pekare till aktuellt dataelementet 
-int is_valid(Iterator it);            // returnerar 0 om iteratorn inte är giltlig, 
-                                       // dvs inte refererar något element, annars 1.
-void change_current(Iterator it, DATA *d); // ändrar aktuellt dataelementet
-void remove_current(Iterator it);         // tar bort aktuellt dataelement
-void find(Iterator it, DATA *d);          // söker d, iteratorn kommer att
-                                           // referera till *d eller vara ogiltlig.
+void go_to_next(Iterator it){// om nästa är startelementet?
+	
+	it->curr = it->curr->next; 
+	
+}         // går till till nästa element 
 
+void go_to_previous(Iterator it){// om föregående är start?
+	
+	it->curr = it->curr->prev;
+	
+}     // går till föregående element
+
+DATA *get_current(Iterator it){
+	
+	return it->curr->data;
+	
+}       // ger pekare till aktuellt dataelementet 
+
+int is_valid(Iterator it){
+	
+	return it->curr != it->q->head;
+	
+}            // returnerar 0 om iteratorn inte är giltlig, 
+                                       // dvs inte refererar något element, annars 1.
+									   
+void change_current(Iterator it, DATA *d){
+	if(is_valid(it)){//behövs detta?
+		it->curr->data=d;
+	}
+	
+} // ändrar aktuellt dataelementet
+
+void remove_current(Iterator it){// sätta DATA i ett element till 0 eller ta bort element ur kön?
+	
+}         // tar bort aktuellt dataelement
+
+void find(Iterator it, DATA *d){
+	go_to_first(it);
+	while(get_current(it) != it->curr->data){
+		go_to_next(it);
+	}
+	
+}         // söker d, iteratorn kommer att
+                                           // referera till *d eller vara ogiltlig.
+/*
 int main(){
 	int nyttNummer = 2;
 	int nyttNummer1 = 3;
@@ -141,24 +179,5 @@ int main(){
 	
 	return 0;
 }
-void delete_queue(Queue q);          // tar bort kön helt och hållet
-void clear(Queue q);                 // tar bort köelementen men behåller kön
-int  size(Queue q);                          // ger köns aktuella längd
-void add(Queue q, int priority, DATA *d);    // lägger in d på rätt plats 
-DATA *get_first(Queue q);                    // avläser första dataelementet 
-void remove_first(Queue q);                   // tar bort det första elementet
 
-Iterator new_iterator(Queue q);       // allokerar utrymme för en ny iterator
-void delete_iterator(Iterator it);    // tar bort iteratorn
-void go_to_first(Iterator it);        // går till köns första element
-void go_to_last(Iterator it);         // går till köns sista element
-void go_to_next(Iterator it);         // går till till nästa element
-void go_to_previous(Iterator it);     // går till föregående element
-DATA *get_current(Iterator it);       // ger pekare till aktuellt dataelementet 
-int is_valid(Iterator it);            // returnerar 0 om iteratorn inte är giltlig, 
-                                       // dvs inte refererar något element, annars 1.
-void change_current(Iterator it, DATA *d); // ändrar aktuellt dataelementet
-void remove_current(Iterator it);         // tar bort aktuellt dataelement
-void find(Iterator it, DATA *d);          // söker d, iteratorn kommer att
-                                           // referera till *d eller vara ogiltlig.
-
+*/
