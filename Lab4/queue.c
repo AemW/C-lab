@@ -1,4 +1,3 @@
-#define DATA const char
 #include "queue.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -28,20 +27,19 @@ Queue new_queue(){
 	queue->head->prio = 0;
 	queue->head->data = NULL;
 	return queue;
-}                   // allokerar minnesutrymme för en ny kö
+}// allokerar minnesutrymme för en ny kö
 
-void delete_queue(Queue q){
+void delete_queue(Queue q){//Free q ???????????????
 	clear(q);		// rensa alla element
 	free(q->head);	// fria head
 	free(q); 		// FFEEEL!
-}          // tar bort kön helt och hållet
+}// tar bort kön helt och hållet
 
 void clear(Queue q){
 	while(size(q) > 0){
 		remove_first(q);
 	}
-	
-}          // tar bort köelementen men behåller kön
+}// tar bort köelementen men behåller kön
 
 int size(Queue q){
 	return q->length;
@@ -65,11 +63,11 @@ void add(Queue q, int priority, DATA *d){
 	qelem->prev = temp->prev;
 	temp->prev = qelem;
 	(q->length)++;
-}    
+}// lägger till nytt element i kön
 
 DATA *get_first(Queue q){
 	return q->head->next->data;
-}                    // avläser första dataelementet 
+}// avläser första dataelementet 
 
 void remove_first(Queue q){//untried
 	
@@ -83,7 +81,7 @@ void remove_first(Queue q){//untried
 		
 	}
 	
-}                   // tar bort det första elementet
+}// tar bort det första elementet
 
 Iterator new_iterator(Queue q){
 	Iterator itr = (Iterator)malloc(sizeof(Iterator));
@@ -92,37 +90,27 @@ Iterator new_iterator(Queue q){
 	itr->curr = q->head->next;
 	
 	return itr;
-	
-	
-	
 }      // allokerar utrymme för en ny iterator
+
 void delete_iterator(Iterator it){
 	free(it);
 }    // tar bort iteratorn
 
-void go_to_first(Iterator it){//untried
-	if(is_valid(it)){
-		while(it->q->head->next != it->curr){
-			it->curr = it->curr->prev;
-		}
-	}
+void go_to_first(Iterator it){// if valid?
+		it->curr = it->q->head->next;	
 }        // går till köns första element
 
-void go_to_last(Iterator it){//untried
-	if(is_valid(it)){
-		while(it->q->head->prev != it->curr){
-			it->curr = it->curr->next;
-		}
-	}
+void go_to_last(Iterator it){//if valid?
+	it->curr = it->q->head->prev;
 }         // går till köns sista element
 
-void go_to_next(Iterator it){// om nästa är startelementet?
+void go_to_next(Iterator it){
 	if(is_valid(it)){
 		it->curr = it->curr->next; 
 	}	
 }         // går till till nästa element 
 
-void go_to_previous(Iterator it){// om föregående är start?
+void go_to_previous(Iterator it){
 	if(is_valid(it)){
 		it->curr = it->curr->prev;
 	}
@@ -142,7 +130,7 @@ int is_valid(Iterator it){
                                        // dvs inte refererar något element, annars 1.
 									   
 void change_current(Iterator it, DATA *d){
-	if(is_valid(it)){//behövs detta?
+	if(is_valid(it)){
 		it->curr->data=d;
 	}
 	
